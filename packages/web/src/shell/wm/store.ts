@@ -107,6 +107,10 @@ class WindowManager {
   setTitle(id: string, title: string): void {
     this.patch(id, (w) => ({ ...w, title }));
   }
+
+  setProps(id: string, props: Record<string, unknown>): void {
+    this.patch(id, (w) => ({ ...w, props: { ...w.props, ...props } }));
+  }
 }
 
 export const wm = new WindowManager();

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { DirEntry } from '@avfs/shared';
 import type { AppProps } from '../../shell/appRegistry';
 import { launchApp } from '../../shell/appRegistry';
+import { wm } from '../../shell/wm/store';
 import { api, ApiError } from '../../api/client';
 import { useToast } from '../../ui/toast';
 import { useDialogs } from '../../ui/dialogs';
@@ -16,8 +17,7 @@ export function FileManager({ win }: AppProps): JSX.Element {
   const { session } = useSession();
   const toast = useToast();
   const dialogs = useDialogs();
-  const initial = (win.props.path as string) || session?.root || '/';
-  const [path, setPath] = useState(initial);
+  const [path, setPath] = useState(() => (win.props.path as string) || session?.root || '/');
   const [entries, setEntries] = useState<DirEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -29,14 +29,15 @@ export function FileManager({ win }: AppProps): JSX.Element {
       const res = await api.list(p, true);
       setEntries(res.entries);
       setPath(p);
+      wm.setProps(win.id, { path: p });
     } catch (e) {
       toast.error(e instanceof ApiError ? e.message : 'Failed to list directory');
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [toast, win.id]);
 
-  useEffect(() => { void load(initial); }, [initial, load]);
+  useEffect(() => { void load(path); }, []);
 
   const openEntry = (entry: DirEntry): void => {
     const childPath = join(path, entry.name);
