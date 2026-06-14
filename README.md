@@ -1,5 +1,7 @@
 # AVFS_Inspector
 
+<img width="1780" height="873" alt="Screenshot 2026-06-14 at 2 36 20 PM" src="https://github.com/user-attachments/assets/c0afec40-2cdc-43d9-ba33-b8c59777681e" />
+
 A web-based live dashboard that turns an [AVFS (Agent Virtual File System)](https://github.com/acezxn/AVFS) namespace into a familiar, browsable file manager — right in your browser.
 
 AVFS is a secure, multi-tenant, POSIX-like virtual file system that serves as long-term memory for autonomous LLM agents, exposed over the Model Context Protocol (MCP). **AVFS_Inspector** turns that file system into a **computer you can use in your browser**: log in at a lock screen with an agent token, then work with the agent's jailed `/home/<agent_id>/` namespace from a desktop full of shortcuts and windowed apps.
